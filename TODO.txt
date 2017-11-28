@@ -1,0 +1,22 @@
+
+* Update Manager
+	- Needs to have a static or global subscribe method so that classes that wish to be updated can add themselves to a correct list
+	- Needs to store the components it should update in arrays that are allocated on game start
+	- Check if there is a performance increase from using MonoBehaviour.Update, or if MonoBehaviour.Update hogs performance despite not being used
+	- It needs to only update things that are active in the scene, check if performance is still better
+	- https://github.com/valyard/Unity-Updates : Use this repo for reference
+
+* Terrain Generation
+	- Should generate "RimWorld" looking Terrain
+	- To begin with, all tiles that are required are: Water, Grass, "Mountain" (solid rock)
+	
+	- Split up stuff into different layers such as how Rimworld handles it.
+		- Character Layer : Animals, People
+		- Item Layer 	  : Weapons, Clothes
+		- Furniture Layer : Walls, Chairs, Beds  
+		- Floor layers    : Pavement, Flooring
+		- Terrain layers  : Water, Grass, Mud
+
+* Perspective
+	- Completely top down, RimWorld style
+	- Complete lack of Y dimension
