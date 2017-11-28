@@ -1,10 +1,10 @@
-
 * Update Manager
 	- Needs to have a static or global subscribe method so that classes that wish to be updated can add themselves to a correct list
 	- Needs to store the components it should update in arrays that are allocated on game start
 	- Check if there is a performance increase from using MonoBehaviour.Update, or if MonoBehaviour.Update hogs performance despite not being used
 	- It needs to only update things that are active in the scene, check if performance is still better
 	- https://github.com/valyard/Unity-Updates : Use this repo for reference
+
 
 * Terrain Generation
 	- Should generate "RimWorld" looking Terrain
@@ -17,6 +17,12 @@
 		- Floor layers    : Pavement, Flooring
 		- Terrain layers  : Water, Grass, Mud
 
+
 * Perspective
 	- Completely top down, RimWorld style
-	- Complete lack of Y dimension
+	- Black where no player has been
+	- Fog of War where no player can see
+
+
+* Networking
+	- Make it possible for a player to join and control his own characters, 3 to begin with
