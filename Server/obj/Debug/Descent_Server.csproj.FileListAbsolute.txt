@@ -1,0 +1,7 @@
+C:\Repositories\Descent\Server\obj\Debug\Descent_Server.csprojResolveAssemblyReference.cache
+C:\Repositories\Descent\Server\obj\Debug\Descent_Server.csproj.CoreCompileInputs.cache
+C:\Repositories\Descent\Server\bin\Debug\Descent_Server.exe.config
+C:\Repositories\Descent\Server\bin\Debug\Descent_Server.exe
+C:\Repositories\Descent\Server\bin\Debug\Descent_Server.pdb
+C:\Repositories\Descent\Server\obj\Debug\Descent_Server.exe
+C:\Repositories\Descent\Server\obj\Debug\Descent_Server.pdb

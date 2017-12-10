@@ -1,0 +1,102 @@
+1) Skapa en serverdefinition av terräng, gör så att den genereras som en chunk på klienten
+2) Skapa en karaktär som kan gå på terrängens tiles med WSAD
+3) Använd två olika tile-typer: Passable, och Impassable. Gör att detta fungerar med karaktären
+
+
+
+
+
+
+* Terrain Generation
+	- Meshen ska inte multitrådas, så genereraden i ChunkGenerators konstruktor
+	- Spelaren triggar kod som genererar en ny chunk med proc gen koden så att det inte måste skickas över nätverket
+		- När spelaren har genererat färdigt chunken så skickar den en request of "changes" som blivit gjorda till chunken
+	- Spelaren ska få noise parametrarna skickade till sig i ett message
+	- Om meddelanden som förändrar terrain typen på en chunks tiles tas emot, så ska chunkens UV map regenereras i slutet av framen
+	- Tiles borde ha en referens till chunken, så om en tile modifieras så ska hela chunken regenna sin view
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* Update Manager
+	- Needs to have a static or global subscribe method so that classes that wish to be updated can add themselves to a correct list
+	- Needs to store the components it should update in arrays that are allocated on game start
+	- Check if there is a performance increase from using MonoBehaviour.Update, or if MonoBehaviour.Update hogs performance despite not being used
+	- It needs to only update things that are active in the scene, check if performance is still better
+	- https://github.com/valyard/Unity-Updates : Use this repo for reference
+
+
+* Terrain Generation
+	- Should generate "RimWorld" looking Terrain
+	- To begin with, all tiles that are required are: Water, Grass, "Mountain" (solid rock)
+	
+	- Split up stuff into different layers such as how Rimworld handles it.
+		- Character Layer : Animals, People
+		- Item Layer 	  : Weapons, Clothes
+		- Furniture Layer : Walls, Chairs, Beds  
+		- Floor layers    : Pavement, Flooring
+		- Terrain layers  : Water, Grass, Mud
+
+
+* Perspective
+	- Completely top down, RimWorld style
+	- Black where no player has been
+	- Fog of War where no player can see
+
+
+* Networking
+	- Make it possible for a player to join and control his own characters, 3 to begin with
+
+IEnumerator RunTimer()
+{
+	float timer = 0;
+
+	while (timer < 1)
+	{
+		timer += Time.deltaTime;
+		yield return null;
+	}
+}
+
+
