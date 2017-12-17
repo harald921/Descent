@@ -3,49 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lidgren.Network;
 
 namespace Descent_Server
 {
-    class Tile : IPackable
+    public class Tile
     {
-        ETerrainType _terrainType;
-        public ETerrainType terrainType { get { return _terrainType; } }
+        // Data
+        public readonly Vector2DI localPosition;
+        public readonly Vector2DI chunkPosition;
 
-
+        Terrain _terrain;
+        
+        // References
+        Chunk _chunk; 
 
 
         // Constructor
-        public Tile(NetIncomingMessage inMsg) { UnpackFrom(inMsg); }
-        public Tile(ETerrainType inTerrainType)
+        public Tile(Vector2DI inLocalPosition, Vector2DI inChunkPosition, Terrain inTerrain)
         {
-            _terrainType = inTerrainType;
+            localPosition = inLocalPosition;
+            _terrain = inTerrain;
+            chunkPosition = inChunkPosition;
         }
 
 
 
-        public int GetPacketSize()
+        // External
+        public Tile GetNearbyTile(Vector2DI inDirection)
         {
-            return NetUtility.BitsToHoldUInt((uint)ETerrainType.Length);
+            if (_chunk == null) _chunk = World.GetChunk(chunkPosition);
+            return _chunk.data.GetTile(localPosition.x + inDirection.x, localPosition.y + inDirection.y);
         }
-
-        public void PackInto(NetOutgoingMessage inMsg)
-        {
-            inMsg.WriteRangedInteger(0, (uint)ETerrainType.Length, ((uint)_terrainType));                 // Type
-        }
-
-        public void UnpackFrom(NetIncomingMessage inMsg)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    // Byt ut mot en struct "TerrainType" som innehåller flags som "Walkable, Burning, Slow" etc.
-    public enum ETerrainType
-    {
-        Dirt,
-        Stone,
-
-        Length
     }
 }

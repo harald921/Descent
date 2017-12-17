@@ -87,6 +87,10 @@ public class NetworkManager : MonoBehaviour
             case EDataPacketTypes.ChunkData:
                 break;
 
+            case EDataPacketTypes.TerrainData:
+                Terrain.dataManager.UnpackFrom(inMsg);
+                break;
+
             default:
                 break;
         }

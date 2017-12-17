@@ -13,6 +13,7 @@ namespace Descent_Server
     {
         WorldData,
         ChunkData,
+        TerrainData,
     }
 
     // Interface

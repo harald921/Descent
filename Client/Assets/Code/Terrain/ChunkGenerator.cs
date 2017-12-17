@@ -58,10 +58,10 @@ public class ChunkGenerator
         // Exposed
         public Chunk.Data Generate(Vector2DI inChunkPos)
         {
-            Chunk.Data newChunkData = new Chunk.Data();
+            Chunk.Data newChunkData = new Chunk.Data(inChunkPos);
 
             NoiseGenerator.Output   chunkNoiseData   = _noiseGenerator.Generate(inChunkPos);
-            TileMapGenerator.Output chunkTileMapData = _tileMapGenerator.Generate(chunkNoiseData);
+            TileMapGenerator.Output chunkTileMapData = _tileMapGenerator.Generate(inChunkPos, chunkNoiseData);
 
             newChunkData.SetTiles(chunkTileMapData.tiles);
 
@@ -130,13 +130,13 @@ public class ChunkGenerator
 
 
             // External
-            public Output Generate(NoiseGenerator.Output inNoiseData)
+            public Output Generate(Vector2DI inChunkPos, NoiseGenerator.Output inNoiseData)
             {
                 Output newOutput = new Output(_chunkSize);
 
                 for (int y = 0; y < _chunkSize; y++)
                     for (int x = 0; x < _chunkSize; x++)
-                        newOutput.tiles[x, y] = new Tile(_world.typeManager.GetTerrainType(inNoiseData.heightMap[x, y]));
+                        newOutput.tiles[x, y] = new Tile(new Vector2DI(x,y), inChunkPos, new Terrain(TerrainGenerator.GetTerrainType(inNoiseData.heightMap[x, y])));
 
                 return newOutput;
             }
@@ -310,7 +310,8 @@ public class ChunkGenerator
                 {
                     for (int x = 0; x < _chunkSize; x++)
                     {
-                        int tileTextureID = _world.dataManager.GetTerrainData(inChunkData.GetTile(x, y).terrainType).textureID;
+
+                        int tileTextureID = inChunkData.GetTile(x, y).terrain.data.textureID;
 
                         newUV2[vertexID               + 0] = new Vector2(tileTextureID, tileTextureID);
                         newUV2[vertexID               + 1] = new Vector2(tileTextureID, tileTextureID);

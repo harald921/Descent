@@ -12,7 +12,11 @@ namespace Descent_Server
         // Data
         public int x, y;
 
-        public Vector2DI Zero { get { return new Vector2DI(0, 0); } }
+        public static Vector2DI Zero  => new Vector2DI( 0,  0 ); 
+        public static Vector2DI Up    => new Vector2DI( 0,  1 ); 
+        public static Vector2DI Down  => new Vector2DI( 0, -1 ); 
+        public static Vector2DI Left  => new Vector2DI(-1,  0 ); 
+        public static Vector2DI Right => new Vector2DI( 1,  0 ); 
 
 
 

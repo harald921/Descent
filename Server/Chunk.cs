@@ -7,55 +7,54 @@ using Lidgren.Network;
 
 namespace Descent_Server
 {
-    class Chunk : IPackable
+    public class Chunk
     {
-        Vector2DI _position;
-        public Vector2DI position { get { return _position; } }
-        Tile[,] _tiles;
-        
+        // Data
+        public class Data
+        {
+            // Data
+            public readonly Vector2DI position;
+            Tile[,]   tiles;
+
+
+            // Constructor
+            public Data(Vector2DI inPos)
+            {
+                position = inPos;
+            }
+
+
+            // External
+            public Tile GetTile(int x, int y)
+            {
+                return tiles[x, y];
+            }
+
+            public void SetTile(int x, int y, Tile inTile)
+            {
+                tiles[x, y] = inTile;
+            }
+
+            public void SetTiles(Tile[,] inTiles)
+            {
+                tiles = inTiles;
+            }
+        }
+        Data _data;
+        public Data data => _data;
+
+        // References
+        World _world;
+
+
 
         // Constructor
-        public Chunk(NetIncomingMessage inMsg) { UnpackFrom(inMsg); }
-        public Chunk(Vector2DI inPosition, int inSize)
+        public Chunk(Data inData, World inWorld)
         {
-            _position = inPosition;
-            
-            _tiles = new Tile[inSize, inSize];
+            _data     = inData;
+            _world    = inWorld;
 
-            Random rng = new Random();
-
-            for (int x = 0; x < inSize; x++)
-                for (int y = 0; y < inSize; y++)
-                    _tiles[x, y] = new Tile((ETerrainType)rng.Next(0, 2));
-        }
-
-
-
-        public int GetPacketSize()
-        {
-            int bitsNeeded = NetUtility.BitsToHoldUInt((uint)_tiles.GetLength(0));
-
-            int tilesLength = _tiles.GetLength(0);
-            for (int y = 0; y < tilesLength; y++)
-                for (int x = 0; x < tilesLength; x++)
-                    bitsNeeded += _tiles[x, y].GetPacketSize();
-
-            return bitsNeeded;
-        }
-
-        public void PackInto(NetOutgoingMessage inMsg)
-        {
-            inMsg.WriteVariableUInt32((uint)_tiles.GetLength(0));             // Size 
-
-            int tilesLength = _tiles.GetLength(0);
-            for (int y = 0; y < tilesLength; y++)
-                for (int x = 0; x < tilesLength; x++)
-                    _tiles[x, y].PackInto(inMsg);
-        }
-
-        public void UnpackFrom(NetIncomingMessage inMsg)
-        {
-            throw new NotImplementedException();
+            Console.WriteLine("New Chunk: " + _data.position.x + "," + _data.position.y);
         }
     }
 }

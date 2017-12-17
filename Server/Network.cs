@@ -10,12 +10,15 @@ namespace Descent_Server
 {
     class Network
     {
+        // Data
         const int _port = 12345;
 
+        // References
         static NetServer _server;
 
-
+        // Events
         public static event Action<NetConnection> OnPlayerJoin;
+
 
         // Constructor
         public Network(string inAppName)
@@ -23,6 +26,8 @@ namespace Descent_Server
             _server = new NetServer(new NetPeerConfiguration(inAppName) { Port = _port });
             _server.Start();
         }
+
+
 
 
         // External
@@ -53,7 +58,6 @@ namespace Descent_Server
             }
         }
 
-        // Internal
         public static void Send(IInPackable inPacket, EDataPacketTypes inMsgType, NetConnection inTargetConnection, NetDeliveryMethod inDeliveryMethod)
         {
             var newMsg = _server.CreateMessage(inPacket.GetPacketSize());
@@ -61,13 +65,16 @@ namespace Descent_Server
             inPacket.PackInto(newMsg);
             _server.SendMessage(newMsg, inTargetConnection, inDeliveryMethod);
         }
+        
 
 
+
+        // Internal
         void OnClientStatusChanged(NetConnectionStatus inNewStatus, NetIncomingMessage inMsg)
         {
             if (inNewStatus == NetConnectionStatus.Connected)
             {
-                OnPlayerJoin(inMsg.SenderConnection);
+                OnPlayerJoin?.Invoke(inMsg.SenderConnection);
             }
         }
 
@@ -82,14 +89,5 @@ namespace Descent_Server
                     break;
             }
         }
-
-        // public static int BitsNeeded(uint val)
-        // {
-        //     for (int i = 0; i < 32; i++)
-        //         if (val >> i == 0)
-        //             return i;
-        // 
-        //     return 32;
-        // }
     }
 }

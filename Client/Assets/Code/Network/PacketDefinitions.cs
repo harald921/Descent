@@ -9,8 +9,8 @@ public enum EDataPacketTypes
 {
     WorldData,
     ChunkData,
+    TerrainData,
 }
-
 // Interface
 public interface IPackable : IInPackable, IUnPackable { }
 

@@ -4,37 +4,38 @@ using UnityEngine;
 
 using Lidgren.Network;
 
-public struct Tile : IUnPackable  
+public class Tile 
 {
     // Data
-    ETerrainType _terrainType;
-    public ETerrainType terrainType
-    {
-        get { return _terrainType; }
-    }
+    public readonly Vector2DI localPosition;
+    public readonly Vector2DI chunkPosition;
+
+    Terrain _terrain;
+
+    // References
+    Chunk _chunk;
+
+    // Properties
+    public Terrain terrain => _terrain;
+
 
 
 
     // Constructor
-    public Tile(ETerrainType inTerrainType)
+    public Tile(Vector2DI inLocalPosition, Vector2DI inChunkPosition, Terrain inTerrain)
     {
-        _terrainType = inTerrainType;
+        localPosition = inLocalPosition;
+        _terrain = inTerrain;
+        chunkPosition = inChunkPosition;
     }
 
 
 
-    // Networking
-    public void UnpackFrom(NetIncomingMessage inMsg)
+
+    // External
+    public Tile GetNearbyTile(Vector2DI inDirection)
     {
-        _terrainType = (ETerrainType)inMsg.ReadVariableUInt32();
+        if (_chunk == null) _chunk = World.GetChunk(chunkPosition);
+        return _chunk.data.GetTile(localPosition.x + inDirection.x, localPosition.y + inDirection.y);
     }
-}
-
-// TODO: Byt ut mot en struct "TerrainType" som innehåller flags som "Walkable, Burning, Slow" etc.
-public enum ETerrainType
-{
-    Grass,
-    Sand,
-
-    Length
 }
